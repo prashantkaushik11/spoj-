@@ -7,22 +7,7 @@ int isvalid(int x,int y,int i,int j){
 	}
 	return 1;
 }
-void bfs(vector<vector<char>> &arr,vector<vector<int>> &visited,int level,int n,int m,int i,int j,int *ans){
-	if(arr[i][j]=='#'){
-		*ans=min(*ans,level);
-		return;
-	}
-	int dx[]={-1,1,0,0};
-	int dy[]={0,0,-1,1};
-	for(int k=0;k<4;k++){
-		if(isvalid(i+dx[k],j+dy[k],n,m)&&(visited[i+dx[k]][j+dy[k]]==-1)){
-			if(arr[i+dx[k]][j+dy[k]]=='O'||arr[i+dx[k]][j+dy[k]]=='#'){
-				visited[i+dx[k]][j+dy[k]]=1;
-				bfs(arr,visited,level+1,n,m,i+dx[k],j+dy[k],ans);
-			}
-		}
-	}
-}
+
 int main() {
 	// your code goes here
 	int t;
@@ -32,6 +17,7 @@ int main() {
 		cin>>n>>m;
 		vector<vector<char>> arr(n,vector<char>(m,'q'));
 		vector<vector<int>> visited(n,vector<int>(m,-1));
+		vector<vector<int>> demoArr(n,vector<int>(m,0));
 		int startx=-1,starty=-1;
 		for(int i=0;i<n;i++){
 			for(int j=0;j<m;j++){
@@ -42,9 +28,37 @@ int main() {
 				}
 			}
 		}
-		int ans=INT_MAX;
-		visited[startx][starty]=1;
-		bfs(arr,visited,0,n,m,startx,starty,&ans);
+		int answer=INT_MAX;
+		queue<pair<int,int>> q;
+		q.push(make_pair(startx,starty));
+		int dx[]={-1,1,0,0};
+		int dy[]={0,0,-1,1};
+		demoArr[startx][starty]=0;
+		while(!q.empty()){
+			pair<int,int> temp=q.front();
+			int i=temp.first,j=temp.second;
+			q.pop();
+			int level=demoArr[i][j];
+			for(int k=0;k<4;k++){
+				if(isvalid(i+dx[k],j+dy[k],n,m)&&(visited[i+dx[k]][j+dy[k]]==-1)){
+					if(arr[i+dx[k]][j+dy[k]]=='O'||arr[i+dx[k]][j+dy[k]]=='#'){
+						visited[i+dx[k]][j+dy[k]]=1;
+						demoArr[i+dx[k]][j+dy[k]]=level+1;
+						q.push(make_pair(i+dx[k],j+dy[k]));
+						if(arr[i+dx[k]][j+dy[k]]=='#'){
+							answer=level+1;
+							break;
+						}
+					}
+				}
+			}
+			if(answer!=INT_MAX)
+				break;
+		}
+		if(answer==INT_MAX)
+			cout<<"-1\n";
+		else
+			cout<<answer<<"\n";
 	}
 	return 0;
 }
