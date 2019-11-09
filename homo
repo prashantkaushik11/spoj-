@@ -1,0 +1,48 @@
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+int main() {
+	// your code goes here
+	long long int t,n=1;
+	cin>>t;
+	while(n<=t){
+		string str;
+		long long int number;
+		unordered_map<long long int ,long long int> u_map;
+		cin>>str>>number;
+		long long int flaghetro=0,flaghomo=0;
+		if(str=="insert"){
+			umap[number]++;
+			
+		}
+		else{
+			if(umap[number]==0){
+				umap.erase(number);
+			}
+			else{
+				umap[number]--;
+			}
+		}
+		if(umap.size()>n){
+				flaghomo=1;
+		}
+		if(umap.size()>=1){
+			flaghetro=1;
+		}
+		if(umap.size()==0){
+				cout<<"neither\n";
+		}
+		else if(flaghomo==1&&flaghetro==1){
+			cout<<"both\n";
+		}
+		else if(flaghomo!=1&&flaghetro==1){
+			cout<<"hetero\n";
+		}
+		else if(flaghomo!=1&&flaghetro==1){
+			cout<<"homo\n";
+		}
+		n++;
+	}
+	return 0;
+}
