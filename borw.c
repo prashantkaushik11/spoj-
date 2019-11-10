@@ -6,6 +6,9 @@ int minrange=INT_MIN;
 int dpcalc(vector<int> &arr,int idx,int inc,int dec,vector<vector<vector<int>>> &dp,int t){
 	if(dp[idx][inc][dec]!=-1)
 		return dp[idx][inc][dec];
+	if(idx==t){
+		return 0;
+	}
 	if(arr[idx]>arr[inc]){
 		dp[idx][inc][dec]=dpcalc(arr,idx+1,idx,dec,dp,t);
 	}
@@ -17,6 +20,7 @@ int dpcalc(vector<int> &arr,int idx,int inc,int dec,vector<vector<vector<int>>> 
 			dp[idx][inc][dec]=min(dp[idx][inc][dec],dpcalc(arr,idx+1,inc,idx,dp,t));
 		}
 	}
+	
 	if(dp[idx][inc][dec]==-1){
 		dp[idx][inc][dec]=1+dpcalc(arr,idx+1,inc,dec,dp,t);
 	}
@@ -24,6 +28,7 @@ int dpcalc(vector<int> &arr,int idx,int inc,int dec,vector<vector<vector<int>>> 
 		dp[idx][inc][dec]=min(dp[idx][inc][dec],1+dpcalc(arr,idx+1,inc,dec,dp,t));
 	}
 	return dp[idx][inc][dec];
+	
 }
 int main() {
 	// your code goes here
