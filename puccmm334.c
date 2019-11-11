@@ -1,31 +1,41 @@
 #include <iostream>
+#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
 	// your code goes here
-	int t,x,flag=0,z;
-	cin>>t;
+	int t,flag=0,z;
+	long long int x;
+	scanf("%d",&t);
 	z=t;
-	unordered_map<int,int> umap;
+	unordered_map<long long int,long long int> umap;
 	while(t--){
-		cin>>x;
+		scanf("%lld",&x);
 		umap[x]++;
 		if(x>z)
 			flag=1;
 	}
 	if(umap.size()>2){
-		cout<<"-1\n";
+		printf("-1\n");
 	}
 	else if(flag==1)
-		cout<<"-1\n";
+		printf("-1\n");
 	else if(umap.size()==1){
-		if(umap[0].first==0){
-			cout<<"0\n";
+		long long int check=INT_MIN;
+		for (auto i : umap) 
+        	check=max(check,i.first);
+		if(check==0){
+			printf("0\n");
 		}
 		else{
-			cout<<umap.second+1<<"\n";
+			printf("%lld\n",check+1);
 		}
 	}
 	else{
-		int check=max(umap[0].second,umap[1].second);
-		cout<<check<<"\n";
+		long long int check=INT_MIN;
+		for (auto i : umap) 
+        	check=max(check,i.first);
+        printf("%lld",check);
+	}
+	return 0;
+}
