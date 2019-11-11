@@ -1,15 +1,17 @@
 #include <iostream>
 #include<bits/stdc++.h>
 using namespace std;
-int calcRoute(vector<vector<int>> &dp,int size1,int size2,int x,int y,vector<int> &temp,vector<int> &agnes){
+int calcRoute(vector<vector<int>> &dp,int x,int y,vector<int> &temp,vector<int> &agnes){
 	if(dp[x][y]!=-1)
 		return dp[x][y];
-	else if(size1==0||size2==0){
+	if(x==0||y==0){
 		return dp[x][y]=0;
 	}
-	if(agnes[x-1]==temp[y-1])
-		return dp[x][y]=1+calcRoute(dp,size1,size2,x-1,y-1,temp,route);
-	return dp[x][y]=max(calcRoute(dp,size1,size2,x-1,y,temp,route),calcRoute(dp,size1,size2,x,y-1,temp,route));
+	if(agnes[x-1]==temp[y-1]){
+		dp[x][y]=1+calcRoute(dp,x-1,y-1,temp,agnes);
+		return dp[x][y];
+	}
+	return dp[x][y]=max(calcRoute(dp,x-1,y,temp,agnes),calcRoute(dp,x,y-1,temp,agnes));
 }
 int main() {
 	// your code goes here
@@ -27,6 +29,7 @@ int main() {
 			agnes.push_back(entry);
 			cin>>entry;
 		}
+		
 		cin>>nRoutes;
 		while(nRoutes!=0){
 			vector<int> temp;
@@ -38,7 +41,7 @@ int main() {
 			}
 			int size1=agnes.size(),size2=temp.size();
 			vector<vector<int>> dp(size1+1,vector<int>(size2+1,-1));
-			int ans=max(ans,calcRoute(dp,size1,size2,size1,size2,temp,ages));
+			ans=max(ans,calcRoute(dp,size1,size2,temp,agnes));
 			cin>>nRoutes;
 		}
 		cout<<ans<<"\n";
