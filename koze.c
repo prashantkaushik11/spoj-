@@ -1,7 +1,11 @@
 #include <iostream>
 #include<bits/stdc++.h>
 using namespace std;
-
+int isvalid(int x,int y,int i,int j){
+	if(i>=x||i<0||j<0||j>=y)
+		return 0;
+	return 1;
+}
 int main() {
 	// your code goes here
 	int m,n;
@@ -21,20 +25,22 @@ int main() {
 		for(int j=0;j<m;j++){
 			if(visited[i][j]==0){
 				visited[i][j]=1;
-				q.push_back({i,j});
+				q.push({i,j});
 				countWolves=0;
-				countsheep=0;
+				countSheep=0;
 				while(!q.empty()){
 					pair<int,int> a=q.front();
+					q.pop();
 					int x=a.first;
 					int y=a.second;
-					if(matrix[i][j]=='v')
+					if(matrix[x][y]=='v')
 						countWolves++;
-					if(matrix[i][j]=='k')
+					if(matrix[x][y]=='k')
 						countSheep++;
 					for(int k=0;k<3;k++){
-						if(isvalid(n,m,x+dx[k],y+dy[k])&&(matrix[x+dx[k]][y+dy[k]]!='#')){
-							q.push_back({x+dx[k],y+dy[k]});
+						if(isvalid(n,m,x+dx[k],y+dy[k])&&(matrix[x+dx[k]][y+dy[k]]!='#')&&(visited[x+dx[k]][y+dy[k]]==0)){
+							visited[x+dx[k]][y+dy[k]]=1;
+							q.push({x+dx[k],y+dy[k]});
 						}
 					}
 				}
